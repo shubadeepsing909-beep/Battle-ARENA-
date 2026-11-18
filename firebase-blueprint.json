@@ -1,0 +1,309 @@
+{
+  "entities": {
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Authorized Battle Arena platform administrator with role-based permissions.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID matching document ID" },
+        "email": { "type": "string", "description": "Verified Google email address" },
+        "displayName": { "type": "string", "description": "Administrator display name" },
+        "role": { "type": "string", "enum": ["SUPER_ADMIN", "FINANCE_ADMIN", "TOURNAMENT_ADMIN"] },
+        "active": { "type": "boolean", "description": "Whether admin privileges are currently enabled" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp" }
+      },
+      "required": ["uid", "email", "displayName", "role", "active", "createdAt", "updatedAt"]
+    },
+    "PlayerUser": {
+      "title": "PlayerUser",
+      "description": "Registered Battle Arena player profile and account status.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID matching document ID" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "freeFireUid": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "blocked": { "type": "boolean" },
+        "matchesPlayed": { "type": "integer" },
+        "totalWins": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "email", "freeFireUid", "blocked", "matchesPlayed", "totalWins", "createdAt", "updatedAt"]
+    },
+    "PlayerWallet": {
+      "title": "PlayerWallet",
+      "description": "Server/admin-controlled wallet balance for a player. Direct client edits are forbidden.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "balance": { "type": "number" },
+        "totalDeposited": { "type": "number" },
+        "totalWithdrawn": { "type": "number" },
+        "totalWinnings": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "balance", "totalDeposited", "totalWithdrawn", "totalWinnings", "updatedAt"]
+    },
+    "Tournament": {
+      "title": "Tournament",
+      "description": "Free Fire esports tournament configuration, schedule, room credentials, and status.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "gameMode": { "type": "string", "enum": ["SOLO", "DUO", "SQUAD"] },
+        "mapName": { "type": "string" },
+        "entryFee": { "type": "number" },
+        "prizePool": { "type": "number" },
+        "firstPrize": { "type": "number" },
+        "secondPrize": { "type": "number" },
+        "thirdPrize": { "type": "number" },
+        "perKillPrize": { "type": "number" },
+        "maxPlayers": { "type": "integer" },
+        "registeredCount": { "type": "integer" },
+        "scheduledDate": { "type": "string" },
+        "startTime": { "type": "string" },
+        "registrationCloseTime": { "type": "string" },
+        "rules": { "type": "string" },
+        "status": { "type": "string", "enum": ["UPCOMING", "LIVE", "COMPLETED", "CANCELLED"] },
+        "published": { "type": "boolean" },
+        "roomId": { "type": "string" },
+        "roomPassword": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "title", "gameMode", "mapName", "entryFee", "prizePool",
+        "firstPrize", "secondPrize", "thirdPrize", "perKillPrize",
+        "maxPlayers", "registeredCount", "scheduledDate", "startTime",
+        "registrationCloseTime", "rules", "status", "published",
+        "roomId", "roomPassword", "createdBy", "createdAt", "updatedAt"
+      ]
+    },
+    "Registration": {
+      "title": "Registration",
+      "description": "Player entry registration in a tournament.",
+      "type": "object",
+      "properties": {
+        "tournamentId": { "type": "string" },
+        "userId": { "type": "string" },
+        "playerName": { "type": "string" },
+        "freeFireUid": { "type": "string" },
+        "teamName": { "type": "string" },
+        "slotNumber": { "type": "integer" },
+        "entryFeePaid": { "type": "number" },
+        "status": { "type": "string", "enum": ["CONFIRMED", "KICKED", "REFUNDED"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["tournamentId", "userId", "playerName", "freeFireUid", "slotNumber", "entryFeePaid", "status", "createdAt", "updatedAt"]
+    },
+    "DepositRequest": {
+      "title": "DepositRequest",
+      "description": "Player deposit verification request linked to a gateway payment tier.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "playerName": { "type": "string" },
+        "amount": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "paymentLinkUsed": { "type": "string" },
+        "transactionRef": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED"] },
+        "adminNote": { "type": "string" },
+        "reviewedBy": { "type": "string" },
+        "reviewedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "playerName", "amount", "paymentMethod", "transactionRef", "status", "createdAt", "updatedAt"]
+    },
+    "WithdrawalRequest": {
+      "title": "WithdrawalRequest",
+      "description": "Player withdrawal payout request supporting Bank Account and UPI.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "playerName": { "type": "string" },
+        "amount": { "type": "number" },
+        "payoutMethod": { "type": "string", "enum": ["BANK_ACCOUNT", "UPI"] },
+        "accountHolderName": { "type": "string" },
+        "accountNumber": { "type": "string" },
+        "ifscCode": { "type": "string" },
+        "bankName": { "type": "string" },
+        "upiId": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED"] },
+        "payoutReference": { "type": "string" },
+        "adminNote": { "type": "string" },
+        "reviewedBy": { "type": "string" },
+        "reviewedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "playerName", "amount", "payoutMethod", "status", "createdAt", "updatedAt"]
+    },
+    "WalletTransaction": {
+      "title": "WalletTransaction",
+      "description": "Immutable financial ledger record for deposits, withdrawals, fees, prizes, and admin adjustments.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "type": { "type": "string", "enum": ["DEPOSIT", "WITHDRAWAL", "ENTRY_FEE", "PRIZE_WON", "REFUND", "ADMIN_CREDIT", "ADMIN_DEBIT"] },
+        "amount": { "type": "number" },
+        "referenceId": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["COMPLETED", "REJECTED"] },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "type", "amount", "referenceId", "description", "status", "createdBy", "createdAt"]
+    },
+    "TournamentWinner": {
+      "title": "TournamentWinner",
+      "description": "Verified tournament winner placement, kill count, and allocated prize payout.",
+      "type": "object",
+      "properties": {
+        "tournamentId": { "type": "string" },
+        "tournamentTitle": { "type": "string" },
+        "userId": { "type": "string" },
+        "playerName": { "type": "string" },
+        "freeFireUid": { "type": "string" },
+        "rank": { "type": "integer" },
+        "kills": { "type": "integer" },
+        "prizeAmount": { "type": "number" },
+        "allocatedBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["tournamentId", "tournamentTitle", "userId", "playerName", "freeFireUid", "rank", "kills", "prizeAmount", "allocatedBy", "createdAt"]
+    },
+    "NotificationItem": {
+      "title": "NotificationItem",
+      "description": "Broadcast announcement or targeted player notification.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "targetUserId": { "type": "string" },
+        "type": { "type": "string", "enum": ["ANNOUNCEMENT", "ROOM_RELEASE", "WALLET", "SYSTEM"] },
+        "tournamentId": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "message", "targetUserId", "type", "createdBy", "createdAt"]
+    },
+    "SupportTicket": {
+      "title": "SupportTicket",
+      "description": "Player support ticket and admin resolution response.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "playerName": { "type": "string" },
+        "email": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string", "enum": ["OPEN", "IN_PROGRESS", "RESOLVED"] },
+        "adminReply": { "type": "string" },
+        "resolvedBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "playerName", "email", "subject", "message", "status", "createdAt", "updatedAt"]
+    },
+    "PaymentSettings": {
+      "title": "PaymentSettings",
+      "description": "Configured deposit gateway payment links and withdrawal payout methods.",
+      "type": "object",
+      "properties": {
+        "tier50Link": { "type": "string" },
+        "tier100Link": { "type": "string" },
+        "tier200Link": { "type": "string" },
+        "tier500Link": { "type": "string" },
+        "bankWithdrawalEnabled": { "type": "boolean" },
+        "upiWithdrawalEnabled": { "type": "boolean" },
+        "minDeposit": { "type": "number" },
+        "minWithdrawal": { "type": "number" },
+        "supportEmail": { "type": "string" },
+        "updatedBy": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "tier50Link", "tier100Link", "tier200Link", "tier500Link",
+        "bankWithdrawalEnabled", "upiWithdrawalEnabled", "minDeposit",
+        "minWithdrawal", "supportEmail", "updatedBy", "updatedAt"
+      ]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Immutable admin activity log entry.",
+      "type": "object",
+      "properties": {
+        "adminUid": { "type": "string" },
+        "adminEmail": { "type": "string" },
+        "action": { "type": "string" },
+        "targetType": { "type": "string" },
+        "targetId": { "type": "string" },
+        "details": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["adminUid", "adminEmail", "action", "targetType", "targetId", "details", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Authorized admin accounts and roles"
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/PlayerUser" },
+      "description": "Player profiles"
+    },
+    "/wallets/{userId}": {
+      "schema": { "$ref": "#/entities/PlayerWallet" },
+      "description": "Admin/server-controlled player wallets"
+    },
+    "/tournaments/{tournamentId}": {
+      "schema": { "$ref": "#/entities/Tournament" },
+      "description": "Free Fire tournaments"
+    },
+    "/registrations/{registrationId}": {
+      "schema": { "$ref": "#/entities/Registration" },
+      "description": "Tournament participant registrations"
+    },
+    "/deposits/{depositId}": {
+      "schema": { "$ref": "#/entities/DepositRequest" },
+      "description": "Player deposit verification requests"
+    },
+    "/withdrawals/{withdrawalId}": {
+      "schema": { "$ref": "#/entities/WithdrawalRequest" },
+      "description": "Player bank/UPI withdrawal requests"
+    },
+    "/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/WalletTransaction" },
+      "description": "Immutable wallet transaction ledger"
+    },
+    "/winners/{winnerId}": {
+      "schema": { "$ref": "#/entities/TournamentWinner" },
+      "description": "Verified tournament winners and prize allocations"
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/NotificationItem" },
+      "description": "Broadcast and user notifications"
+    },
+    "/support/{ticketId}": {
+      "schema": { "$ref": "#/entities/SupportTicket" },
+      "description": "Player customer support tickets"
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/PaymentSettings" },
+      "description": "Gateway links and platform settings"
+    },
+    "/auditLogs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Immutable admin audit log"
+    }
+  }
+}

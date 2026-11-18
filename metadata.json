@@ -1,0 +1,6 @@
+{
+  "name": "Battle Arena",
+  "description": "Free Fire esports tournament Admin Panel and player operations platform with secure wallet verification, tournament controls, and winner prize management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

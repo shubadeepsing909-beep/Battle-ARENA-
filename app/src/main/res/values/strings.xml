@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Battle Arena</string>
+    <string name="admin_portal_subtitle">Esports Tournament Command Center</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="access_restricted_title">Admin Access Required</string>
+    <string name="access_restricted_message">Your Google account is not registered as a Battle Arena administrator. Sign in with an authorized admin account to manage tournaments, wallets, and payouts.</string>
+</resources>
